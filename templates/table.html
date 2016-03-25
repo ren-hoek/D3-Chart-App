@@ -1,0 +1,71 @@
+{% extends "layout.html" %}
+{% block head %}
+{{ super() }}
+<style type='text/css'>
+   td, th {
+   text-align: right;
+   }
+   td.bold {
+   font-weight: bold;
+   }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="container-fluid">
+ <div class="row">
+  <div class="col-sm-2"></div>
+   <div class="col-sm-8">
+    <form class="form-horizontal" action="{{ url_for('table') }}" method=post>
+     <div class="form-group">
+      {{ form.type_drop.label(class="col-sm-3 control-label") }}
+      <div class="col-sm-5">
+       {{ form.type_drop(class="form-control") }}
+      </div>
+     </div>
+     <div class="form-group">
+      {{ form.year_drop.label(class="col-sm-3 control-label") }}
+      <div class="col-sm-5">
+       {{ form.year_drop(class="form-control") }}
+      </div>
+     </div>
+     <div class="form-group">
+      <div class="col-sm-offset-3 col-sm-9">
+       {{ form.submit(class="btn btn-default") }}
+      </div>
+     </div>
+    </form>
+    <h2>{{ inj_ill_type }}, {{ year }}</h2>
+    <table class="table table-hover table-condensed">
+     <tr>
+      <th rowspan=3>Industry</th>
+      <th rowspan=3>Code</th>
+      <th colspan=3>Estimate</th>
+      <th colspan=3>Rate</th>
+     </tr>
+     <tr>
+      <th rowspan=2>Central</th>
+      <th colspan=2>95% C.I.</th>
+      <th rowspan=2>Central</th>
+      <th colspan=2>95% C.I.</th>
+     </tr>
+     <tr>
+      <th>Lower</th>
+      <th>Upper</th>
+      <th>Lower</th>
+      <th>Upper</th>
+     </tr>       
+     {% for row in results %}
+     <tr>
+      <td>{{ row[0] }}</td><td>{{ row[1] }}</td>
+      <td class="bold">{{ row[2] }}</td><td>{{ row[3] }}</td>
+      <td>{{ row[4] }}</td><td class="bold">{{ row[5] }}</td>
+      <td>{{ row[6] }}</td><td>{{ row[7] }}</td>
+    </tr>
+    {% endfor %}
+   </table>    
+  </div>
+  <div class="col-sm-3"></div>
+ </div>
+</div>
+{% endblock %}
